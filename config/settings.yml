@@ -1,0 +1,10 @@
+plugins:
+  onesignal_push_enabled:
+    default: false
+    client: true
+  onesignal_app_id:
+    default: ''
+    client: ''
+  onesignal_rest_api_key:
+    default: ''
+    client: ''

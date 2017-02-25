@@ -1,0 +1,5 @@
+en:
+  site_settings:
+    onesignal_push_enabled: "Check to enable OneSignal Push Notifications"
+    onesignal_app_id: "OneSignal App ID"
+    onesignal_rest_api_key: "OneSignal REST API Key"
