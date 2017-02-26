@@ -7,6 +7,10 @@
 after_initialize do
 
   DiscourseEvent.on(:post_notification_alert) do |user, payload|
+    # debugging
+    Rails.logger.warn("1SIG: #{user.to_yaml}")
+    Rails.logger.warn("1SIG: #{payload.to_yaml}")
+    # debugging
 
     return unless SiteSetting.onesignal_push_enabled?
 
@@ -19,17 +23,29 @@ after_initialize do
         return
     end
 
+    oneSignalURI = 'https://onesignal.com/api/v1/notifications'
+    # https://api.discourse.org/api/publish_ios
+
+    clients = user.user_api_keys
+        .where("('push' = ANY(scopes) OR 'notifications' = ANY(scopes)) AND push_url IS NOT NULL AND position(push_url in ?) > 0 AND revoked_at IS NULL",
+                  oneSignalURI)
+        .pluck(:client_id, :push_url, :application_name)
+
+    return unless clients.length > 0
+
+    Rails.logger.warn("1SIG: #{clients.to_yaml}")
+
 		params = {
 			"app_id" => SiteSetting.onesignal_app_id, 
-      "contents" => {"en" => payload[:excerpt]},
+      "contents" => {"en" => "#{payload[:username]}: #{payload[:excerpt]}"},
       "headings" => {"en" => payload[:topic_title]},
       "data" => {"discourse_url" => payload[:post_url]},
       "filters" => [
-          {"field": "tag", "key": "username", "relation": "=", "value": "peshku"}, 
+          {"field": "tag", "key": "username", "relation": "=", "value": user.username}, 
         ]
 		}
 
-		uri = URI.parse('https://onesignal.com/api/v1/notifications')
+		uri = URI.parse(oneSignalURI)
 		http = Net::HTTP.new(uri.host, uri.port)
 		http.use_ssl = true if uri.scheme == 'https'
 
