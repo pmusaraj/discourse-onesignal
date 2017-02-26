@@ -7,10 +7,6 @@
 after_initialize do
 
   DiscourseEvent.on(:post_notification_alert) do |user, payload|
-    # debugging
-    Rails.logger.warn("1SIG: #{user.to_yaml}")
-    Rails.logger.warn("1SIG: #{payload.to_yaml}")
-    # debugging
 
     return unless SiteSetting.onesignal_push_enabled?
 
