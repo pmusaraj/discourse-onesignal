@@ -1,5 +1,5 @@
 # name: discourse-onesignal
-# about: Push notifications via the OneSignal API. 
+# about: Push notifications via the OneSignal API.
 # version: 1.0
 # authors: pmusaraj
 # url: https://github.com/pmusaraj/discourse-onesignal
@@ -26,7 +26,7 @@ after_initialize do
 
       if clients.length > 0
         Jobs.enqueue(:onesignal_pushnotification, clients: clients, payload: payload, username: user.username)
-      else 
+      else
         Rails.logger.error("#{user.to_yaml}")
       end
 
@@ -38,12 +38,14 @@ after_initialize do
           payload = args["payload"]
 
           params = {
-            "app_id" => SiteSetting.onesignal_app_id, 
+            "app_id" => SiteSetting.onesignal_app_id,
             "contents" => {"en" => "#{payload[:username]}: #{payload[:excerpt]}"},
             "headings" => {"en" => payload[:topic_title]},
             "data" => {"discourse_url" => payload[:post_url]},
+            "ios_badgeType" => "Increase",
+            "ios_badgeCount" => "1",
             "filters" => [
-                {"field": "tag", "key": "username", "relation": "=", "value": args["username"]}, 
+                {"field": "tag", "key": "username", "relation": "=", "value": args["username"]},
               ]
           }
 
@@ -55,7 +57,7 @@ after_initialize do
               'Content-Type'  => 'application/json;charset=utf-8',
               'Authorization' => "Basic #{SiteSetting.onesignal_rest_api_key}")
           request.body = params.as_json.to_json
-          response = http.request(request) 
+          response = http.request(request)
 
           case response
           when Net::HTTPSuccess then
