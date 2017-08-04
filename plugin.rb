@@ -26,8 +26,6 @@ after_initialize do
 
       if clients.length > 0
         Jobs.enqueue(:onesignal_pushnotification, clients: clients, payload: payload, username: user.username)
-      else
-        Rails.logger.error("#{user.to_yaml}")
       end
 
     end
@@ -61,9 +59,12 @@ after_initialize do
 
           case response
           when Net::HTTPSuccess then
-            Rails.logger.info("Push Notification sent via OneSignal")
+            Rails.logger.info("Push notification sent via OneSignal to #{args['username']}.")
           else
-            Rails.logger.error("Push Notification Error: (uri) #{uri} - (response) #{response.to_yaml}")
+            Rails.logger.error("OneSignal error")
+            Rails.logger.error("#{request.to_yaml}")
+            Rails.logger.error("#{response.to_yaml}")
+
           end
 
         end
