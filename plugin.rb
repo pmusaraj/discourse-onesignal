@@ -17,6 +17,10 @@ after_initialize do
     get '/mobile-app/login' => "onesignal#mobile_login"
   end
 
+  User.class_eval do
+    has_many :onesignal_subscriptions, dependent: :delete_all
+  end
+
   DiscourseEvent.on(:post_notification_alert) do |user, payload|
 
     if SiteSetting.onesignal_app_id.nil? || SiteSetting.onesignal_app_id.empty?
