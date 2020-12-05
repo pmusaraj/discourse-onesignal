@@ -10,7 +10,7 @@ export default {
     const currentUser = container.lookup("current-user:main");
 
     if (isAppWebview() && currentUser) {
-      postRNWebviewMessage("authenticated", 1);
+      postRNWebviewMessage("currentUsername", currentUser.username);
     }
 
     // called by webview
