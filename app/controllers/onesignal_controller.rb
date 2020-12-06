@@ -25,8 +25,6 @@ class ::OnesignalController < ::ApplicationController
   end
 
   def app_login
-    puts params.inspect
-
     render json: success_json
   end
 
