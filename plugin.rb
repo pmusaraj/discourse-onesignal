@@ -9,16 +9,16 @@ enabled_site_setting :onesignal_push_enabled
 register_asset 'stylesheets/common/app-login.scss'
 register_asset 'stylesheets/mobile/app-login.scss', :mobile
 
+Discourse::Application.routes.append do
+  post '/onesignal/subscribe' => "onesignal#subscribe"
+  get '/mobile-app-login' => "onesignal#app_login"
+end
+
 after_initialize do
   ONESIGNALAPI = 'https://onesignal.com/api/v1/notifications'
 
   require File.expand_path("../app/models/onesignal_subscription.rb", __FILE__)
   require File.expand_path("../app/controllers/onesignal_controller.rb", __FILE__)
-
-  Discourse::Application.routes.append do
-    post '/onesignal/subscribe' => "onesignal#subscribe"
-    get '/mobile-app-login' => "onesignal#app_login"
-  end
 
   User.class_eval do
     has_many :onesignal_subscriptions, dependent: :delete_all

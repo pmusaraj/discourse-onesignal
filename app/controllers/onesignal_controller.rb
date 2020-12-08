@@ -5,7 +5,6 @@ class ::OnesignalController < ::ApplicationController
   before_action :ensure_logged_in, except: [:app_login]
 
   def subscribe
-    puts params.inspect
     token = params.require(:token)
     application_name = params.require(:application_name)
     platform = params.require(:platform)
