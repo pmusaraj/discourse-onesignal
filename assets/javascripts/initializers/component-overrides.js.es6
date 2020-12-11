@@ -15,7 +15,6 @@ export default {
         },
         mouseDown(e) {
           if (document.body.classList.contains("mobile-app-login-modal")) {
-            e.preventDefault();
             return;
           }
 
