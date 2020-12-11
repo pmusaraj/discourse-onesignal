@@ -23,8 +23,9 @@
       margin-right: auto;
       width: 475px;
       max-width: 100%;
+      box-sizing: border-box;
       .title {
-        padding-left: 1.5em;
+        margin-top: 2em;
       }
     }
   }
@@ -32,6 +33,7 @@
   #main-outlet {
     width: 475px;
     max-width: 100%;
+    box-sizing: border-box;
     .mobile-app-login-intro {
       padding-left: 1.5em;
     }
