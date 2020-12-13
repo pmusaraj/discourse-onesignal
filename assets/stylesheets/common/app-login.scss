@@ -1,0 +1,41 @@
+.mobile-app-login-modal {
+  .modal-backdrop,
+  .modal-header {
+    display: none;
+  }
+
+  .fixed-modal {
+    position: static;
+    margin-bottom: 3em;
+  }
+
+  .modal-inner-container {
+    box-shadow: none;
+  }
+
+  header.d-header {
+    box-shadow: none;
+    .panel {
+      display: none;
+    }
+    .contents {
+      margin-left: auto;
+      margin-right: auto;
+      width: 475px;
+      max-width: 100%;
+      box-sizing: border-box;
+      .title {
+        margin-top: 2em;
+      }
+    }
+  }
+
+  #main-outlet {
+    width: 475px;
+    max-width: 100%;
+    box-sizing: border-box;
+    .mobile-app-login-intro {
+      padding-left: 1.5em;
+    }
+  }
+}
