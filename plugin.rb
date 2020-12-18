@@ -21,12 +21,10 @@ after_initialize do
   DiscourseEvent.on(:post_notification_alert) do |user, payload|
 
     if SiteSetting.onesignal_app_id.nil? || SiteSetting.onesignal_app_id.empty?
-        Rails.logger.warn('OneSignal App ID is missing')
-        return
+      Rails.logger.warn('OneSignal App ID is missing')
     end
     if SiteSetting.onesignal_rest_api_key.nil? || SiteSetting.onesignal_rest_api_key.empty?
-        Rails.logger.warn('OneSignal REST API Key is missing')
-        return
+      Rails.logger.warn('OneSignal REST API Key is missing')
     end
 
     # legacy, no longer used
