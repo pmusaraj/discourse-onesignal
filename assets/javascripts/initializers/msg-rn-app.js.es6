@@ -1,5 +1,5 @@
 import { ajax } from "discourse/lib/ajax";
-import { isAppWebview, postRNWebviewMessage } from "discourse/lib/utilities";
+import { postRNWebviewMessage } from "discourse/lib/utilities";
 import User from "discourse/models/user";
 
 export default {
@@ -8,8 +8,9 @@ export default {
 
   initialize(container) {
     const currentUser = container.lookup("current-user:main");
+    const capabilities = container.lookup("capabilities:main");
 
-    if (isAppWebview() && currentUser) {
+    if (capabilities.isAppWebview && currentUser) {
       postRNWebviewMessage("currentUsername", currentUser.username);
     }
 
